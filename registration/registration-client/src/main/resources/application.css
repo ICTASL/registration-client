@@ -1148,7 +1148,7 @@ Working on new Css by taleev
 	-fx-background-color: #f67725;
 	-fx-border-color: #f67725;
 	-fx-text-fill: #FFFFFF;
-	-fx-fill: #f67725;
+	-fx-graphic: url("/images/scanInvert.png");
 }
 
 .scanButton:pressed {
