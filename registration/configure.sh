@@ -34,12 +34,14 @@ cd /
 
 mkdir -p /sdkjars
 
+
 if [ "$reg_client_sdk_url" ]
 then
 	echo "Found thirdparty SDK"
-	wget "$reg_client_sdk_url"
-	/usr/bin/unzip /sdkDependency.zip
-	cp /sdkDependency/*.jar /sdkjars/
+	#wget "$reg_client_sdk_url"
+	/usr/bin/unzip  /build_files/sdkDependency.zip
+	cp /sdkDependency/lib/*.jar /sdkjars/
+	cp /sdkDependency/dll/*.dll  /sdkjars/
 else
 	echo "Downloading MOCK SDK..."
 	wget "${artifactory_url}/artifactory/libs-release-local/mock-sdk/1.1.5/mock-sdk.jar" -O /sdkjars/mock-sdk.jar
@@ -68,6 +70,7 @@ ls -ltr lib | grep bc
 
 /usr/bin/zip -r reg-client.zip bin
 /usr/bin/zip -r reg-client.zip lib
+
 #/usr/bin/zip reg-client.zip MANIFEST.MF
 
 #Creating Regclient testing framework
