@@ -286,6 +286,14 @@ public class Validations extends BaseController {
 					isInputValid = checkForValidValue(parentPane, node, label, node.getText(), messageBundle, showAlert,
 							isPreviousValid, blackListedWords, uiSchemaDTO);
 				}
+				//Remove the validation error msg if the validation is true
+				if(isInputValid){
+					Label messageLable = ((Label) (parentPane
+							.lookup(RegistrationConstants.HASH + node.getId() + RegistrationConstants.MESSAGE)));
+					if (messageLable != null) {
+						messageLable.setText(RegistrationConstants.EMPTY);
+					}
+				}
 				return isInputValid;
 			}
 
