@@ -372,7 +372,7 @@
 }
 
 .documentScanHeader {
-	-fx-background-color: #175768;
+	-fx-background-color: #f67725;
 }
 
 .scanPopupHeaderTitle {
@@ -542,7 +542,7 @@
 Working on new Css by taleev
 */
 #loginScreen {
-	-fx-background-image: url('/images/LoginBackGround.png');
+	-fx-background-image: url('/images/LoginBackGround.jpg');
 	-fx-background-size: cover, auto;
 	-fx-background-position: left top, center;
 }
@@ -598,7 +598,7 @@ Working on new Css by taleev
 
 .searchBoxTextStyle:focused {
 	-fx-border-width: 0.2 0.2 2.0 0.2;
-	-fx-border-color: #C9C9C9 #C9C9C9 #22A8C9 #C9C9C9;
+	-fx-border-color: #C9C9C9 #C9C9C9 #f67725 #C9C9C9;
 	-fx-background-color: -fx-text-box-border, -fx-control-inner-background;
 }
 
@@ -805,7 +805,7 @@ Working on new Css by taleev
 .demoGraphicFieldLabelOnType {
 	-fx-background-color: #ffffff;
 	-fx-border-width: 0.0;
-	-fx-text-fill: #22A8C9;
+	-fx-text-fill: #f67725;
 	-fx-prompt-text-fill: #000000;
 	-fx-font-size: 1em;
 }
@@ -862,7 +862,7 @@ Working on new Css by taleev
 }
 
 .demoGraphicTextFieldOnType:focused {
-	-fx-border-color: #22A8C9;
+	-fx-border-color: #f67725;
 	-fx-border-width: 0.0 0.0 2.0 0.0;
 	-fx-background-color: #FFFFFF;
 	-fx-prompt-text-fill: gray;
@@ -979,7 +979,7 @@ Working on new Css by taleev
 
 .fingerPrintPanes:focused {
 	-fx-background-color: #F0F0F0;
-	-fx-border-color: #00A6E9;
+	-fx-border-color: #f67725;
 	-fx-border-width: 5.0;
 	-fx-padding: -2.5;
 	-fx-border-radius: 3.0, 3.0, 3.0, 3.0;
@@ -987,7 +987,7 @@ Working on new Css by taleev
 
 .biometricPaneSelected {
 	-fx-background-color: #F0F0F0;
-	-fx-border-color: #00A6E9;
+	-fx-border-color: #f67725;
 	-fx-border-width: 5;
 	-fx-padding: -2.5;
 	-fx-border-radius: 3, 3, 3, 3;
@@ -1011,7 +1011,7 @@ Working on new Css by taleev
 
 .IrisPanes:focused {
 	-fx-background-color: #F0F0F0;
-	-fx-border-color: #00A6E9;
+	-fx-border-color: #f67725;
 	-fx-border-width: 5.0 5.0 5.0 5.0;
 	-fx-padding: -2.5;
 	-fx-border-radius: 3.0, 3.0, 3.0, 3.0;
@@ -1026,7 +1026,7 @@ Working on new Css by taleev
 }
 
 .bioIris {
-	-fx-border-color: #51d1ff;
+	-fx-border-color: #f67725;
 	-fx-border-width: 5.0;
 }
 
@@ -1051,7 +1051,7 @@ Working on new Css by taleev
 
 .photoCapturePanes:focused {
 	-fx-background-color: #F0F0F0;
-	-fx-border-color: #00A6E9;
+	-fx-border-color: #f67725;
 	-fx-border-width: 5.0;
 	-fx-padding: -2.5;
 	-fx-border-radius: 3.0, 3.0, 3.0, 3.0;
@@ -1124,7 +1124,7 @@ Working on new Css by taleev
 .operatorAuthenticationStyleTextTypeOne:focused {
 	-fx-text-fill: #666666;
 	-fx-border-width: 0.2 0.2 2.0 0.2;
-	-fx-border-color: #C9C9C9 #C9C9C9 #22A8C9 #C9C9C9;
+	-fx-border-color: #C9C9C9 #C9C9C9 #f67725 #C9C9C9;
 	-fx-background-color: -fx-text-box-border, -fx-control-inner-background;
 }
 
@@ -1148,12 +1148,20 @@ Working on new Css by taleev
 	-fx-background-color: #f67725;
 	-fx-border-color: #f67725;
 	-fx-text-fill: #FFFFFF;
+	-fx-graphic: url("/images/scanFocused.png");
+	-fx-background-size: 24px 16px;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center;
 }
 
 .scanButton:pressed {
 	-fx-background-color: #f67725;
 	-fx-border-color: #f67725;
 	-fx-text-fill: #FFFFFF;
+	-fx-graphic: url("/images/scanFocused.png");
+	-fx-background-size: 24px 16px;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center;
 }
 
 .registrationHeaderBorder {
@@ -1550,7 +1558,7 @@ Working on new Css by taleev
 .authenticationStyle:focused {
 	-fx-text-fill: #666666;
 	-fx-border-width: 0.2 0.2 2.0 0.2;
-	-fx-border-color: #C9C9C9 #C9C9C9 #22A8C9 #C9C9C9;
+	-fx-border-color: #C9C9C9 #C9C9C9 #f67725 #C9C9C9;
 	-fx-background-color: -fx-text-box-border, -fx-control-inner-background;
 }
 
@@ -1657,7 +1665,7 @@ Working on new Css by taleev
 }
 
 .menuBar {
-	-fx-background-color: #0B6A82
+	-fx-background-color: #f67725
 }
 
 .headerDetails .label {
@@ -1960,7 +1968,7 @@ Working on new Css by taleev
 .biometricsDisplay {
 	-fx-font-family: Roboto;
 	-fx-font-size: 16.0px;
-	-fx-border-color: #0286f7;
+	-fx-border-color: #f67725;
 	-fx-border-insets: 1;
 	-fx-border-width: 3;
 	-fx-border-style: solid;
@@ -2279,7 +2287,7 @@ Working on new Css by taleev
 
 .authenticationErrorMsgTitle {
 	-fx-font-size: 16.0px;
-	-fx-text-fill: #175768;
+	-fx-text-fill: #f67725;
 }
 
 .authenticationPageTitle {
