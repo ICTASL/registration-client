@@ -534,7 +534,7 @@ Working on new Css by taleev
 
 
 #loginScreen{
-	-fx-background-image : url('/images/LoginBackGround.png');
+	-fx-background-image : url('/images/LoginBackGround.jpg');
 	-fx-background-size: cover, auto;
 	-fx-background-position: left top, center;
 }
@@ -1177,7 +1177,7 @@ Working on new Css by taleev
 #uploadPanesFirst{
 	-fx-background-color : #FFFFFF;
 	-fx-padding : 5.0 5.0 5.0 5.0;
-	-fx-border-color : #E457A0;
+	-fx-border-color : #f67725;
 	-fx-border-width : 0.0 0.0 1.0 0.0;
 	-fx-effect: dropshadow( three-pass-box , rgba(0.0,0.0,0.0,0.6) , 5.0, 0.0 , 0.0 , 1.0 );
 }
@@ -1233,7 +1233,7 @@ Working on new Css by taleev
 	-fx-text-fill: #666666;
     -fx-background-color: #FFFFFF;
     -fx-border-width : 0.0 0.0 1.0 0.0;
-    -fx-border-color : #E457A0;
+    -fx-border-color : #f67725;
 }
 
 .table-view .column-header .label{
