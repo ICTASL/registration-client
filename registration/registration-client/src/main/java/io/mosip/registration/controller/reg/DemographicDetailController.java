@@ -228,16 +228,17 @@ public class DemographicDetailController extends BaseController {
 			for (Entry<String, List<UiSchemaDTO>> templateGroupEntry : templateGroup.entrySet()) {
 
 				List<UiSchemaDTO> list = templateGroupEntry.getValue();
-				if (list.size() <= 4) {
-					addGroupInUI(list, position, templateGroupEntry.getKey() + position);
-				} else {
-					for (int index = 0; index <= list.size() / 4; index++) {
-
-						int toIndex = ((index * 4) + 3) <= list.size() - 1 ? ((index * 4) + 4) : list.size();
-						List<UiSchemaDTO> subList = list.subList(index * 4, toIndex);
-						addGroupInUI(subList, position, templateGroupEntry.getKey() + position);
-					}
-				}
+				addGroupInUI(list, position, templateGroupEntry.getKey() + position, templateGroupEntry.getKey());
+//				if (list.size() <= 4) {
+//					addGroupInUI(list, position, templateGroupEntry.getKey() + position, templateGroupEntry.getKey());
+//				} else {
+//					for (int index = 0; index <= list.size() / 4; index++) {
+//
+//						int toIndex = ((index * 4) + 3) <= list.size() - 1 ? ((index * 4) + 4) : list.size();
+//						List<UiSchemaDTO> subList = list.subList(index * 4, toIndex);
+//						addGroupInUI(subList, position, templateGroupEntry.getKey() + position, templateGroupEntry.getKey());
+//					}
+//				}
 			}
 
 			populateDropDowns();
@@ -280,16 +281,42 @@ public class DemographicDetailController extends BaseController {
 		}
 	}
 
-	private void addGroupInUI(List subList, int position, String gridPaneId) {
+//	private void addGroupInUI(List subList, int position, String gridPaneId, String templateName) {
+//		GridPane groupGridPane = new GridPane();
+//		groupGridPane.setId(gridPaneId);
+//
+//		addGroupContent(subList, groupGridPane);
+//		parentFlowPane.getChildren().add(groupGridPane);
+//
+//		//parentFlow.add(groupGridPane);
+//		//position++;
+//		//positionTracker.put(groupGridPane.getId(), position);
+//	}
+
+	private void addGroupInUI(List subList, int position, String gridPaneId, String templateName) {
 		GridPane groupGridPane = new GridPane();
 		groupGridPane.setId(gridPaneId);
 
 		addGroupContent(subList, groupGridPane);
-		parentFlowPane.getChildren().add(groupGridPane);
 
-		//parentFlow.add(groupGridPane);
-		//position++;
-		//positionTracker.put(groupGridPane.getId(), position);
+		String templateId = templateName.replaceAll(" ", "")+"_layout";
+		GridPane templatePane = (GridPane) parentFlowPane.lookup("#"+templateId);
+		System.out.println(parentFlowPane.lookup("#"+templateId));
+		if (templatePane == null){
+			templatePane = new GridPane();
+			templatePane.setId(templateId);
+
+
+			/* Adding label */
+			Label label = new Label(templateName);
+			label.getStyleClass().add("demoGraphicCustomLabel");
+			label.setPadding(new Insets(0, 0, 10, 55));
+			label.setPrefWidth(1200);
+			templatePane.add(label, 0, 0);
+		}
+		int childs = templatePane.getRowCount();
+		templatePane.add(groupGridPane, 0, childs);
+		parentFlowPane.getChildren().add(templatePane);
 	}
 
 	private void fillOrderOfLocation() {
