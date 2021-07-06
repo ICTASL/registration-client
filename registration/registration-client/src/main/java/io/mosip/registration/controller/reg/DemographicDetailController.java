@@ -294,28 +294,56 @@ public class DemographicDetailController extends BaseController {
 //	}
 
 	private void addGroupInUI(List subList, int position, String gridPaneId, String templateName) {
-		GridPane groupGridPane = new GridPane();
-		groupGridPane.setId(gridPaneId);
-
-		addGroupContent(subList, groupGridPane);
 
 		String templateId = templateName.replaceAll(" ", "")+"_layout";
 		GridPane templatePane = (GridPane) parentFlowPane.lookup("#"+templateId);
 		System.out.println(parentFlowPane.lookup("#"+templateId));
-		if (templatePane == null){
-			templatePane = new GridPane();
-			templatePane.setId(templateId);
+
+		if (subList.size() <= 3) {
+			GridPane groupGridPane = new GridPane();
+			groupGridPane.setId(gridPaneId);
+
+			addGroupContent(subList, groupGridPane);
+			if (templatePane == null){
+				templatePane = new GridPane();
+				templatePane.setId(templateId);
 
 
-			/* Adding label */
-			Label label = new Label(templateName);
-			label.getStyleClass().add("demoGraphicCustomLabel");
-			label.setPadding(new Insets(0, 0, 10, 55));
-			label.setPrefWidth(1200);
-			templatePane.add(label, 0, 0);
+				/* Adding label */
+				Label label = new Label(templateName);
+				label.getStyleClass().add("demoGraphicCustomLabel");
+				label.setPadding(new Insets(0, 0, 10, 55));
+				label.setPrefWidth(1200);
+				templatePane.add(label, 0, 0);
+			}
+			int childs = templatePane.getRowCount();
+			templatePane.add(groupGridPane, 0, childs);
+
+		} else {
+			for (int index = 0; index <= subList.size() / 3; index++) {
+				int toIndex = ((index * 3) + 2) <= subList.size() - 1 ? ((index * 3) + 3) : subList.size();
+				List<UiSchemaDTO> rowList = subList.subList(index * 3, toIndex);
+				GridPane groupGridPane = new GridPane();
+				groupGridPane.setId(gridPaneId);
+
+				addGroupContent(rowList, groupGridPane);
+				if (templatePane == null){
+					templatePane = new GridPane();
+					templatePane.setId(templateId);
+
+
+					/* Adding label */
+					Label label = new Label(templateName);
+					label.getStyleClass().add("demoGraphicCustomLabel");
+					label.setPadding(new Insets(0, 0, 10, 55));
+					label.setPrefWidth(1200);
+					templatePane.add(label, 0, 0);
+				}
+				int childs = templatePane.getRowCount();
+				templatePane.add(groupGridPane, 0, childs);
+			}
 		}
-		int childs = templatePane.getRowCount();
-		templatePane.add(groupGridPane, 0, childs);
+
 		parentFlowPane.getChildren().add(templatePane);
 	}
 
