@@ -157,6 +157,7 @@ public class DemographicDetailController extends BaseController {
 	private Map<String, TreeMap<Integer, String>> orderOfAddressMapByGroup = new HashMap<>();
 	private Map<String, List<String>> orderOfAddressListByGroup = new LinkedHashMap<>();
 	Map<String, List<UiSchemaDTO>> templateGroup = null;
+	Map<String, List<UiSchemaDTO>> dynamicGroup = null;
 	private Node previousNode;
 
 
@@ -299,34 +300,41 @@ public class DemographicDetailController extends BaseController {
 		GridPane templatePane = (GridPane) parentFlowPane.lookup("#"+templateId);
 		System.out.println(parentFlowPane.lookup("#"+templateId));
 
-		if (subList.size() <= 3) {
-			GridPane groupGridPane = new GridPane();
-			groupGridPane.setId(gridPaneId);
+		if(templateName.equals("Sibling Details") || templateName.equals("Child Details")) {
 
-			addGroupContent(subList, groupGridPane);
-			if (templatePane == null){
-				templatePane = new GridPane();
-				templatePane.setId(templateId);
+			dynamicGroup = getDynamicGroupMap(subList);
+			for (Entry<String, List<UiSchemaDTO>> dynamicGroupEntry : dynamicGroup.entrySet()) {
+				List<UiSchemaDTO> list = dynamicGroupEntry.getValue();
+				for (int index = 0; index <= list.size() / 3; index++) {
+					int toIndex = ((index * 3) + 2) <= list.size() - 1 ? ((index * 3) + 3) : list.size();
+					List<UiSchemaDTO> subRowList = list.subList(index * 3, toIndex);
+					GridPane groupGridPane = new GridPane();
+					groupGridPane.setId(gridPaneId);
+
+					addGroupContent(subRowList, groupGridPane);
+					if (templatePane == null){
+						templatePane = new GridPane();
+						templatePane.setId(templateId);
 
 
-				/* Adding label */
-				Label label = new Label(templateName);
-				label.getStyleClass().add("demoGraphicCustomLabel");
-				label.setPadding(new Insets(0, 0, 10, 55));
-				label.setPrefWidth(1200);
-				templatePane.add(label, 0, 0);
+						/* Adding label */
+						Label label = new Label(templateName);
+						label.getStyleClass().add("demoGraphicCustomLabel");
+						label.setPadding(new Insets(0, 0, 10, 55));
+						label.setPrefWidth(1200);
+						templatePane.add(label, 0, 0);
+					}
+					int childs = templatePane.getRowCount();
+					templatePane.add(groupGridPane, 0, childs);
+				}
 			}
-			int childs = templatePane.getRowCount();
-			templatePane.add(groupGridPane, 0, childs);
-
-		} else {
-			for (int index = 0; index <= subList.size() / 3; index++) {
-				int toIndex = ((index * 3) + 2) <= subList.size() - 1 ? ((index * 3) + 3) : subList.size();
-				List<UiSchemaDTO> rowList = subList.subList(index * 3, toIndex);
+		}
+		else {
+			if (subList.size() <= 3) {
 				GridPane groupGridPane = new GridPane();
 				groupGridPane.setId(gridPaneId);
 
-				addGroupContent(rowList, groupGridPane);
+				addGroupContent(subList, groupGridPane);
 				if (templatePane == null){
 					templatePane = new GridPane();
 					templatePane.setId(templateId);
@@ -341,8 +349,35 @@ public class DemographicDetailController extends BaseController {
 				}
 				int childs = templatePane.getRowCount();
 				templatePane.add(groupGridPane, 0, childs);
+
+			} else {
+				for (int index = 0; index <= subList.size() / 3; index++) {
+					int toIndex = ((index * 3) + 2) <= subList.size() - 1 ? ((index * 3) + 3) : subList.size();
+					List<UiSchemaDTO> rowList = subList.subList(index * 3, toIndex);
+					GridPane groupGridPane = new GridPane();
+					groupGridPane.setId(gridPaneId);
+
+					addGroupContent(rowList, groupGridPane);
+					if (templatePane == null){
+						templatePane = new GridPane();
+						templatePane.setId(templateId);
+
+
+						/* Adding label */
+						Label label = new Label(templateName);
+						label.getStyleClass().add("demoGraphicCustomLabel");
+						label.setPadding(new Insets(0, 0, 10, 55));
+						label.setPrefWidth(1200);
+						templatePane.add(label, 0, 0);
+					}
+					int childs = templatePane.getRowCount();
+					templatePane.add(groupGridPane, 0, childs);
+				}
 			}
 		}
+
+
+
 
 		parentFlowPane.getChildren().add(templatePane);
 	}
@@ -1694,6 +1729,22 @@ public class DemographicDetailController extends BaseController {
 			}
 		}
 		return templateGroupMap;
+	}
+
+	private Map<String, List<UiSchemaDTO>> getDynamicGroupMap(List<UiSchemaDTO> sublist) {
+
+		Map<String, List<UiSchemaDTO>> dynamicGroupMap = new LinkedHashMap<>();
+
+		for (UiSchemaDTO entry : sublist) {
+			List<UiSchemaDTO> list = dynamicGroupMap.get(entry.getGroup());
+			if (list == null) {
+				list = new LinkedList<UiSchemaDTO>();
+			}
+			list.add(entry);
+			dynamicGroupMap.put(entry.getGroup() == null ? entry.getId() + "TemplateGroup"
+					: entry.getGroup(), list);
+		}
+		return dynamicGroupMap;
 
 	}
 }
