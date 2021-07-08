@@ -14,6 +14,7 @@ import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -301,7 +302,6 @@ public class DemographicDetailController extends BaseController {
 		System.out.println(parentFlowPane.lookup("#"+templateId));
 
 		if(templateName.equals("Sibling Details") || templateName.equals("Child Details")) {
-
 			dynamicGroup = getDynamicGroupMap(subList);
 			for (Entry<String, List<UiSchemaDTO>> dynamicGroupEntry : dynamicGroup.entrySet()) {
 				List<UiSchemaDTO> list = dynamicGroupEntry.getValue();
@@ -316,18 +316,33 @@ public class DemographicDetailController extends BaseController {
 						templatePane = new GridPane();
 						templatePane.setId(templateId);
 
-
 						/* Adding label */
 						Label label = new Label(templateName);
 						label.getStyleClass().add("demoGraphicCustomLabel");
 						label.setPadding(new Insets(0, 0, 10, 55));
 						label.setPrefWidth(1200);
 						templatePane.add(label, 0, 0);
+						Button showHideButton = new Button("Show/Hide");
+						if(templateName.equals("Sibling Details")) {
+							showHideButton.setOnAction(showHideSiblingEvent);
+						} else {
+							showHideButton.setOnAction(showHideChildEvent);
+						}
+						templatePane.add(showHideButton, 0, 1);
 					}
 					int childs = templatePane.getRowCount();
 					templatePane.add(groupGridPane, 0, childs);
 				}
 			}
+			ObservableList<Node> children = templatePane.getChildren();
+			for (Node child: children) {
+				if(child.getId() != null) {
+					GridPane details = (GridPane) child;
+					details.setVisible(false);
+					details.setManaged(false);
+				}
+			}
+
 		}
 		else {
 			if (subList.size() <= 3) {
@@ -375,12 +390,61 @@ public class DemographicDetailController extends BaseController {
 				}
 			}
 		}
-
-
-
-
 		parentFlowPane.getChildren().add(templatePane);
 	}
+
+	// action event
+	EventHandler<ActionEvent> showHideSiblingEvent = new EventHandler<ActionEvent>() {
+		public void handle(ActionEvent e)
+		{
+			ObservableList<Node> demoPlaneChildren = parentFlowPane.getChildren();
+			for (Node demoPlaneChild: demoPlaneChildren) {
+				if(demoPlaneChild.getId().equals("SiblingDetails_layout")) {
+					GridPane siblingLayout = (GridPane) demoPlaneChild;
+					ObservableList<Node> siblingChilds = siblingLayout.getChildren();
+					for (Node siblingChild: siblingChilds) {
+						if(siblingChild.getId() != null) {
+							GridPane siblingDetails = (GridPane) siblingChild;
+							if(siblingDetails.isManaged()) {
+								siblingDetails.setVisible(false);
+								siblingDetails.setManaged(false);
+
+							} else {
+								siblingDetails.setVisible(true);
+								siblingDetails.setManaged(true);
+							}
+						}
+					}
+				}
+			}
+		}
+	};
+
+	EventHandler<ActionEvent> showHideChildEvent = new EventHandler<ActionEvent>() {
+		public void handle(ActionEvent e)
+		{
+			ObservableList<Node> demoPlaneChildren = parentFlowPane.getChildren();
+			for (Node demoPlaneChild: demoPlaneChildren) {
+				if(demoPlaneChild.getId().equals("ChildDetails_layout")) {
+					GridPane childLayout = (GridPane) demoPlaneChild;
+					ObservableList<Node> childChilds = childLayout.getChildren();
+					for (Node childChild: childChilds) {
+						if(childChild.getId() != null) {
+							GridPane childDetails = (GridPane) childChild;
+							if(childDetails.isManaged()) {
+								childDetails.setVisible(false);
+								childDetails.setManaged(false);
+
+							} else {
+								childDetails.setVisible(true);
+								childDetails.setManaged(true);
+							}
+						}
+					}
+				}
+			}
+		}
+	};
 
 	private void fillOrderOfLocation() {
 		List<Location> locations = masterSyncDao.getLocationDetails(applicationContext.getApplicationLanguage());
