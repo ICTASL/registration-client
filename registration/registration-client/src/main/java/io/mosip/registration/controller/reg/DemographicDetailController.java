@@ -328,6 +328,9 @@ public class DemographicDetailController extends BaseController {
 						} else {
 							showHideButton.setOnAction(showHideChildEvent);
 						}
+						showHideButton.setTranslateX(220);
+						showHideButton.setTranslateY(-35);
+						showHideButton.getStyleClass().add("demoGraphicPaneContentButton");
 						templatePane.add(showHideButton, 0, 1);
 					}
 					int childs = templatePane.getRowCount();
