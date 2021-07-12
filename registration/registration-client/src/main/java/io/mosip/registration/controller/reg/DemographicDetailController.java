@@ -641,9 +641,16 @@ public class DemographicDetailController extends BaseController {
 		vBoxParent.getChildren().addAll(label, textField);
 
 		boolean localLanguage = languageType.equals(RegistrationConstants.LOCAL_LANGUAGE);
-		label.setText(localLanguage ? localLabelBundle.getString(type)
+		//label.setText(localLanguage ? localLabelBundle.getString(type)
+				//: applicationLabelBundle.getString(type) + mandatorySuffix);
+
+		if(type.equals(RegistrationConstants.YYYY)){
+			label.setVisible(true);
+			label.setText(schema.getLabel().get(RegistrationConstants.PRIMARY) + mandatorySuffix);
+		}
+		//textField.setPromptText(label.getText());
+		textField.setPromptText(localLanguage ? localLabelBundle.getString(type)
 				: applicationLabelBundle.getString(type) + mandatorySuffix);
-		textField.setPromptText(label.getText());
 
 		textField.textProperty().addListener((ob, ov, nv) -> {
 			fxUtils.showLabel(parentFlowPane, textField);
