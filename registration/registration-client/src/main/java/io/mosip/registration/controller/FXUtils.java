@@ -47,7 +47,7 @@ public class FXUtils {
 	 * Instance of {@link Logger}
 	 */
 	private static final Logger LOGGER = AppConfig.getLogger(RegistrationController.class);
-	private Transliteration<String> transliteration;
+	private Transliteration<String> translitUtilImpl;
 	private static FXUtils fxUtils = null;
 
 	private FXUtils() {
@@ -125,7 +125,7 @@ public class FXUtils {
 	 * @param transliteration the transliteration to set
 	 */
 	public void setTransliteration(Transliteration<String> transliteration) {
-		this.transliteration = transliteration;
+		this.translitUtilImpl = transliteration;
 	}
 
 	/**
@@ -293,7 +293,7 @@ public class FXUtils {
 						if (haveToTransliterate) {
 							try {
 								localField
-										.setText(transliteration.transliterate(ApplicationContext.applicationLanguage(),
+										.setText(translitUtilImpl.transliterate(ApplicationContext.applicationLanguage(),
 												ApplicationContext.localLanguage(), field.getText()));
 							} catch (RuntimeException runtimeException) {
 								LOGGER.error("REGISTRATION - TRANSLITERATION ERROR ", APPLICATION_NAME,

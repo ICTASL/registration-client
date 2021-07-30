@@ -101,7 +101,8 @@ public class DemographicDetailController extends BaseController {
 	@Autowired
 	private DocumentScanController documentScanController;
 	@Autowired
-	private Transliteration<String> transliteration;
+	//private Transliteration<String> transliteration;
+	private Transliteration<String> translitUtilImpl;
 	@Autowired
 	private PreRegistrationDataSyncService preRegistrationDataSyncService;
 	@Autowired
@@ -218,7 +219,7 @@ public class DemographicDetailController extends BaseController {
 			validation.setChild(false);
 			lostUIN = false;
 			fxUtils = FXUtils.getInstance();
-			fxUtils.setTransliteration(transliteration);
+			fxUtils.setTransliteration(translitUtilImpl);
 			isChild = false;
 			minAge = Integer.parseInt(getValueFromApplicationContext(RegistrationConstants.MIN_AGE));
 			maxAge = Integer.parseInt(getValueFromApplicationContext(RegistrationConstants.MAX_AGE));
@@ -695,9 +696,9 @@ public class DemographicDetailController extends BaseController {
 
 		VBox finalVbox = new VBox();
 		finalVbox.setId(schema.getId());
-		Label labeltop = new Label();
-		labeltop.setText(schema.getLabel().get(RegistrationConstants.PRIMARY) + mandatorySuffix);
-		finalVbox.getChildren().addAll(labeltop,dateHbox, dobMessage);
+		Label labelTop = new Label();
+		labelTop.setText(schema.getLabel().get(RegistrationConstants.PRIMARY) + mandatorySuffix);
+		finalVbox.getChildren().addAll(labelTop,dateHbox, dobMessage);
 		//NOTE: by default local/secondary language DOB fields are disabled
 		finalVbox.setDisable(languageType.equals(RegistrationConstants.LOCAL_LANGUAGE));
 		return finalVbox;
@@ -1849,7 +1850,7 @@ public class DemographicDetailController extends BaseController {
 		if (secondaryField != null) {
 			if (haveToTransliterate) {
 				try {
-					secondaryField.setText(transliteration.transliterate(ApplicationContext.applicationLanguage(),
+					secondaryField.setText(translitUtilImpl.transliterate(ApplicationContext.applicationLanguage(),
 							ApplicationContext.localLanguage(), primaryField.getText()));
 				} catch (RuntimeException runtimeException) {
 					LOGGER.error(loggerClassName, APPLICATION_NAME, RegistrationConstants.APPLICATION_ID,
