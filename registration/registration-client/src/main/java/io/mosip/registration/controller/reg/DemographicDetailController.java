@@ -1754,6 +1754,12 @@ public class DemographicDetailController extends BaseController {
 			TextField localField = (TextField) getFxElement(field.getId() + RegistrationConstants.LOCAL_LANGUAGE);
 			if (localField != null) {
 				//on valid value of primary set secondary language value
+
+				List<String> exemptedTransliteration = applicationContext.getExemptedColumns();
+				if (!exemptedTransliteration.isEmpty()) {
+					hasToBeTransliterated = !exemptedTransliteration.contains(field.getId());
+				}
+
 				setSecondaryLangText((TextField) field, localField, hasToBeTransliterated);
 
 				if (!isInputTextValid(localField, localField.getId())) {
