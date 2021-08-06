@@ -1644,7 +1644,7 @@ public class DemographicDetailController extends BaseController {
 				rowGridPane.addColumn(horizontalRowGridPane == null ? 0 : index, applicationLanguageGridPane);
 
 				if (isLocalLanguageAvailable() && !isAppLangAndLocalLangSame()
-						&& uiSchemaDTOs.get(index).getType().equals(RegistrationConstants.SIMPLE_TYPE)) {
+						&& (uiSchemaDTOs.get(index).getType().equals(RegistrationConstants.SIMPLE_TYPE) || uiSchemaDTOs.get(index).getType().equals(RegistrationConstants.STRING))) {
 
 					LOGGER.debug(loggerClassName, APPLICATION_NAME, RegistrationConstants.APPLICATION_ID,
 							"Adding ui schema of local language");
