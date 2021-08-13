@@ -924,6 +924,10 @@ public class DemographicDetailController extends BaseController {
 		field.managedProperty().bind(field.visibleProperty());
 		validationMessage.visibleProperty().bind(field.visibleProperty());
 		validationMessage.managedProperty().bind(field.visibleProperty());
+		field.valueProperty().addListener((ob, ov, nv) -> {
+			validationMessage.visibleProperty().bind(field.disabledProperty());
+			validationMessage.managedProperty().bind(field.disabledProperty());
+		});
 		vbox.visibleProperty().bind(field.visibleProperty());
 		vbox.managedProperty().bind(field.visibleProperty());
 
