@@ -41,20 +41,20 @@ pipeline {
 
         }
 
-//         stage('SonarQube-Analysis'){
-//             environment{
-//                 scannerHome = tool 'sonarqube_scanner'
-//             }
-//             steps{
-//                     withSonarQubeEnv('sonarqube'){
-//                     sh '${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=registration-client -Dsonar.sources=registration -Dsonar.java.binaries=**/target/classes'
-//                     }
-//
-//                      timeout(time: 15, unit: 'MINUTES'){
-//                          waitForQualityGate abortPipeline: true
-//                      }
-//                 }
-//         }
+        stage('SonarQube-Analysis'){
+            environment{
+                scannerHome = tool 'sonarqube_scanner'
+            }
+            steps{
+                    withSonarQubeEnv('sonarqube'){
+                    sh '${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=registration-client -Dsonar.sources=registration -Dsonar.java.binaries=**/target/classes'
+                    }
+
+                     timeout(time: 15, unit: 'MINUTES'){
+                         waitForQualityGate abortPipeline: true
+                     }
+                }
+        }
 
 
 //          stage('Build-DockerImage') {
