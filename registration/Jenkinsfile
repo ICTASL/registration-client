@@ -57,13 +57,13 @@ pipeline {
         }
 
 
-//          stage('Build-DockerImage') {
-//           steps{
-//             dir('registration') {
-//                 sh 'docker build . -t ${DOCKER_HUB}/registration-client:${VERSION} '
-//             }
-//           }
-//         }
+         stage('Build-DockerImage') {
+          steps{
+            dir('registration') {
+                sh 'docker build . -t ${DOCKER_HUB}/registration-client:${VERSION} '
+            }
+          }
+        }
 
 
 
