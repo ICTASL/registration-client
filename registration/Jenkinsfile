@@ -1,0 +1,73 @@
+pipeline {
+    agent any
+    environment {
+        DOCKER_HUB = "udipoc"
+    }
+
+    tools {
+        maven "M2_HOME"
+        jdk "JDK11"
+    }
+
+    stages{
+        stage('SCM Clone'){
+            steps{
+                git branch: env.BRANCH, url: 'https://github.com/ICTASL/udi-poc-registration-client.git'
+            }
+        }
+
+
+        stage('Init'){
+            steps{
+                dir('registration') {
+                    sh 'mvn -version'
+                    sh 'java -version'
+                }
+            }
+        }
+
+
+        stage('Build'){
+
+            steps{
+                dir('registration') {
+
+                    withMaven {
+                        sh "mvn clean install -Dgpg.skip -DskipTests"
+                    }
+
+                }
+            }
+
+        }
+
+        stage('SonarQube-Analysis'){
+            environment{
+                scannerHome = tool 'sonarqube_scanner'
+            }
+            steps{
+                    withSonarQubeEnv('sonarqube'){
+                    sh '${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=registration-client -Dsonar.sources=registration -Dsonar.java.binaries=**/target/classes'
+                    }
+
+                     timeout(time: 15, unit: 'MINUTES'){
+                         waitForQualityGate abortPipeline: true
+                     }
+                }
+        }
+
+
+         stage('Build-DockerImage') {
+          steps{
+            dir('registration') {
+                sh 'docker build . -t ${DOCKER_HUB}/registration-client:${VERSION} '
+            }
+          }
+        }
+
+
+
+
+
+    }
+}
