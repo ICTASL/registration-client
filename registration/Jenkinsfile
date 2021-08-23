@@ -65,9 +65,21 @@ pipeline {
           }
         }
 
+          stage('Push-DockerImage') {
+          steps {
+              withDockerRegistry(credentialsId: "$DOCKER_HUB" , url: '') {
+                  sh 'docker push ${DOCKER_HUB}/registration-client:${VERSION}'
+              }
+          }
+        }
 
-
-
+          stage('Remove Unused docker image to free disk space') {
+          steps{
+            dir('registration') {
+                sh 'docker rmi -f ${DOCKER_HUB}/registration-client:${VERSION}'
+            }
+          }
+        }
 
     }
 }
