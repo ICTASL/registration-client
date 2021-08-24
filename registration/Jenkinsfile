@@ -22,6 +22,7 @@ pipeline {
                 dir('registration') {
                     sh 'mvn -version'
                     sh 'java -version'
+                    sh 'echo -------------------------'
                     sh 'echo ${BRANCH}'
                     sh 'echo ${VERSION}'
                 }
