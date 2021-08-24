@@ -1521,9 +1521,10 @@ public class DemographicDetailController extends BaseController {
 	 */
 	@FXML
 	private void next() {
-		if (preRegistrationId.getText().isEmpty()) {
+		//Commenting due to not using pre reg in POC phase 2
+		/*if (preRegistrationId.getText().isEmpty()) {
 			preRegistrationId.clear();
-		}
+		}*/
 		// Its required to save before validation as, on spot check for values during
 		// MVEL validation
 		saveDetail();
