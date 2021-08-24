@@ -78,7 +78,7 @@ pipeline {
           stage('Remove Unused docker image to free disk space') {
           steps{
             dir('registration') {
-                sh 'docker rmi -f ${DOCKER_HUB}/registration-client:${VERSION}'
+//                 sh 'docker rmi -f ${DOCKER_HUB}/registration-client:${VERSION}'
             }
           }
         }
