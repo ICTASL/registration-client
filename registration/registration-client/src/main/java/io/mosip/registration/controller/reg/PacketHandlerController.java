@@ -387,7 +387,8 @@ public class PacketHandlerController extends BaseController implements Initializ
 						.setImage(new Image(getClass().getResourceAsStream(RegistrationConstants.SYNC_DATA_IMAGE)));
 			}
 		});
-		downloadPreRegDataPane.hoverProperty().addListener((ov, oldValue, newValue) -> {
+		/*Commenting due to not using pre reg modulle in poc phase 2*/
+		/*downloadPreRegDataPane.hoverProperty().addListener((ov, oldValue, newValue) -> {
 			if (newValue) {
 				downloadPreRegDataImageView.setImage(
 						new Image(getClass().getResourceAsStream(RegistrationConstants.DOWNLOAD_PREREG_FOCUSED)));
@@ -395,7 +396,7 @@ public class PacketHandlerController extends BaseController implements Initializ
 				downloadPreRegDataImageView.setImage(
 						new Image(getClass().getResourceAsStream(RegistrationConstants.DOWNLOAD_PREREG_IMAGE)));
 			}
-		});
+		});*/
 		updateOperatorBiometricsPane.hoverProperty().addListener((ov, oldValue, newValue) -> {
 			if (newValue) {
 				updateOperatorBiometricsImageView.setImage(

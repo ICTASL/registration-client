@@ -65,16 +65,18 @@
 															<children>
 																<FlowPane fx:id="parentFlowPane" prefWidth="${scrollParentPane.width}" styleClass="paneAtDisplayDemoGraphic">
 																	<children>
+																		<!-- Commented due to not using pre reg module in POC phase 2
 																		<GridPane fx:id="preRegParentPane" prefHeight="80.0" prefWidth="${scrollParentPane.width}">
 																			<children>
 																				<GridPane GridPane.columnIndex="1">
-																					<children>
-																						<Label fx:id="preRegistrationLabel" styleClass="demoGraphicFieldLabel" text="%search_for_Pre_registration_id" GridPane.rowIndex="1" />
+																					&lt;!&ndash;<children>
+																						&lt;!&ndash;&lt;!&ndash;&lt;!&ndash;<Label fx:id="preRegistrationLabel" styleClass="demoGraphicFieldLabel" text="%search_for_Pre_registration_id" GridPane.rowIndex="1" />
 																						<TextField fx:id="updateUinId" styleClass="demoGraphicTextField" visible="true" GridPane.rowIndex="3" />
-																						<TextField fx:id="preRegistrationId" styleClass="demoGraphicTextField" visible="true" GridPane.rowIndex="3" />
-																						<HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+																						<TextField fx:id="preRegistrationId" styleClass="demoGraphicTextField" visible="true" GridPane.rowIndex="3" />&ndash;&gt;
+																						<HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="2" GridPane.rowIndex="3">&ndash;&gt;
 																							<children>
-																								<Button fx:id="fetchBtn" mnemonicParsing="true" onAction="#fetchPreRegistration" styleClass="demoGraphicPaneContentButton" text="%fetch" />
+																								&lt;!&ndash; Commented due to not using pre reg module in poc phase 2
+																								<Button fx:id="fetchBtn" mnemonicParsing="true" onAction="#fetchPreRegistration" styleClass="demoGraphicPaneContentButton" text="%fetch" />&ndash;&gt;
 																								<Button fx:id="scanQr" mnemonicParsing="true" styleClass="demoGraphicPaneContentButton" text="%scanqr" visible="false">
 																									<graphic>
 																										<ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
@@ -86,8 +88,8 @@
 
 																								</Button>
 																							</children>
-																						</HBox>
-																					</children>
+																						</HBox>&ndash;&gt;
+																					</children>&ndash;&gt;
 																					<columnConstraints>
 																						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="49.0" prefWidth="100.0" />
 																						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
@@ -111,7 +113,7 @@
 																			<rowConstraints>
 																				<RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
 																			</rowConstraints>
-																		</GridPane>
+																		</GridPane>-->
 																		<GridPane fx:id="languageLabelParentPane" prefHeight="40.0" prefWidth="${scrollParentPane.width}">
 																			<children>
 																				<GridPane GridPane.columnIndex="1">
