@@ -207,7 +207,8 @@ public class DemographicDetailController extends BaseController {
 
 			if (validation.isLostUIN()) {
 				registrationNavlabel.setText(applicationLabelBundle.getString("/lostuin"));
-				disablePreRegFetch();
+				//Commented due to not using pre reg module in POC Phase 2
+				//disablePreRegFetch();
 			}
 
 			if (getRegistrationDTOFromSession() != null
@@ -1262,7 +1263,8 @@ public class DemographicDetailController extends BaseController {
 	public void uinUpdate() {
 		List<String> selectionList = getRegistrationDTOFromSession().getUpdatableFields();
 		if (selectionList != null) {
-			disablePreRegFetch();
+			//Commenting due to not using pre reg in POC Phase 2
+			//disablePreRegFetch();
 			registrationNavlabel.setText(applicationLabelBundle.getString("uinUpdateNavLbl"));
 		}
 		for (Entry<String, UiSchemaDTO> selectionField : validation.getValidationMap().entrySet()) {
