@@ -178,7 +178,7 @@ public class DateValidation extends BaseController {
 		}else {
 			if(isError) {
 				dobMessage.setText(RegistrationUIConstants.INVALID_DATE.concat(" / ")
-						.concat(RegistrationUIConstants.INVALID_DATE_LIMIT).concat(allowedLimit));
+						.concat(RegistrationUIConstants.INVALID_DATE_LIMIT));
 				dobMessage.setVisible(true);
 				generateAlert(parentPane, RegistrationConstants.DATE, dobMessage.getText());
 			} else {

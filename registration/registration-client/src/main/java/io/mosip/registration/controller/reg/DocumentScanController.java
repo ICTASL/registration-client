@@ -290,7 +290,7 @@ public class DocumentScanController extends BaseController {
 		Map<String, DocumentDto> documentsMap = getDocumentsMapFromSession();
 		if (documentsMap != null && !documentsMap.isEmpty() && !documentVBoxes.isEmpty()) {
 			Set<String> docCategoryKeys = documentVBoxes.keySet();
-			documentsMap.keySet().retainAll(docCategoryKeys);
+			//documentsMap.keySet().retainAll(docCategoryKeys);
 			for (String docCategoryKey : docCategoryKeys) {
 
 				DocumentDto documentDetailsDTO = documentsMap.get(docCategoryKey);
