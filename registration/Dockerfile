@@ -12,6 +12,8 @@ ARG healthcheck_url
 
 ARG client_upgrade_server
 
+ARG reg_client_sdk_url
+
 ARG cert_server_URL
 
 ENV client_version_env=${client_version}
@@ -21,6 +23,8 @@ ENV crypto_key_env=${crypto_key}
 ENV healthcheck_url_env=${healthcheck_url}
 
 ENV client_upgrade_server_env=${client_upgrade_server}
+
+ENV reg_client_sdk_url_env=${reg_client_sdk_url}
 
 ENV client_repo_env=${client_repo_url}
 
