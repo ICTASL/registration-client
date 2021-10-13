@@ -1798,12 +1798,12 @@ public class BaseController {
 
 		String mandatoryAstrik = demographicDetailController.getMandatorySuffix(schema);
 		if (languageType.equals(RegistrationConstants.LOCAL_LANGUAGE)) {
-			label.setText(schema.getLabel().get(RegistrationConstants.SECONDARY) + mandatoryAstrik);
+			label.setText(mandatoryAstrik + schema.getLabel().get(RegistrationConstants.SECONDARY));
 			field.setPromptText(label.getText());
 			field.setDisable(true);
 			putIntoLabelMap(fieldName + languageType, schema.getLabel().get(RegistrationConstants.SECONDARY));
 		} else {
-			label.setText(schema.getLabel().get(RegistrationConstants.PRIMARY) + mandatoryAstrik);
+			label.setText(mandatoryAstrik + schema.getLabel().get(RegistrationConstants.PRIMARY));
 			field.setPromptText(label.getText());
 			putIntoLabelMap(fieldName + languageType, schema.getLabel().get(RegistrationConstants.PRIMARY));
 		}

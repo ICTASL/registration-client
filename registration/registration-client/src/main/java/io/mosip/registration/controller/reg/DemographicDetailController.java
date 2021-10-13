@@ -607,7 +607,7 @@ public class DemographicDetailController extends BaseController {
 
 		boolean localLanguage = languageType.equals(RegistrationConstants.LOCAL_LANGUAGE);
 		label.setText(localLanguage ? localLabelBundle.getString(type)
-				: applicationLabelBundle.getString(type) + mandatorySuffix);
+				: mandatorySuffix + applicationLabelBundle.getString(type));
 		textField.setPromptText(label.getText());
 
 		textField.textProperty().addListener((ob, ov, nv) -> {
@@ -643,7 +643,7 @@ public class DemographicDetailController extends BaseController {
 
 		boolean localLanguage = languageType.equals(RegistrationConstants.LOCAL_LANGUAGE);
 		label.setText(localLanguage ? localLabelBundle.getString(type)
-				: applicationLabelBundle.getString(type) + mandatorySuffix);
+				: mandatorySuffix + applicationLabelBundle.getString(type));
 
 		textField.setPromptText(label.getText());
 		textField.textProperty().addListener((ob, ov, nv) -> {
@@ -697,7 +697,7 @@ public class DemographicDetailController extends BaseController {
 		VBox finalVbox = new VBox();
 		finalVbox.setId(schema.getId());
 		Label labeltop = new Label();
-		labeltop.setText(schema.getLabel().get(RegistrationConstants.PRIMARY) + mandatorySuffix);
+		labeltop.setText(mandatorySuffix + schema.getLabel().get(RegistrationConstants.PRIMARY));
 		finalVbox.getChildren().addAll(labeltop,dateHbox, dobMessage);
 		//NOTE: by default local/secondary language DOB fields are disabled
 		finalVbox.setDisable(languageType.equals(RegistrationConstants.LOCAL_LANGUAGE));
@@ -786,7 +786,7 @@ public class DemographicDetailController extends BaseController {
 
 		String mandatorySuffix = getMandatorySuffix(schema);
 		if (languageType.equals(RegistrationConstants.LOCAL_LANGUAGE)) {
-			label.setText(schema.getLabel().get(RegistrationConstants.SECONDARY) + mandatorySuffix);
+			label.setText(mandatorySuffix + schema.getLabel().get(RegistrationConstants.SECONDARY));
 			field.setPromptText(label.getText());
 			putIntoLabelMap(fieldName + languageType, schema.getLabel().get(RegistrationConstants.SECONDARY));
 
@@ -818,7 +818,7 @@ public class DemographicDetailController extends BaseController {
 				hB.getChildren().add(imageView);
 			}
 		} else {
-			label.setText(schema.getLabel().get(RegistrationConstants.PRIMARY) + mandatorySuffix);
+			label.setText(mandatorySuffix + schema.getLabel().get(RegistrationConstants.PRIMARY));
 			field.setPromptText(label.getText());
 			putIntoLabelMap(fieldName + languageType, schema.getLabel().get(RegistrationConstants.PRIMARY));
 		}
@@ -944,10 +944,10 @@ public class DemographicDetailController extends BaseController {
 
 		String mandatorySuffix = getMandatorySuffix(schema);
 		if (languageType.equals(RegistrationConstants.LOCAL_LANGUAGE)) {
-			label.setText(schema.getLabel().get(RegistrationConstants.SECONDARY) + mandatorySuffix);
+			label.setText(mandatorySuffix + schema.getLabel().get(RegistrationConstants.SECONDARY));
 			putIntoLabelMap(fieldName + languageType, schema.getLabel().get(RegistrationConstants.SECONDARY));
 		} else {
-			label.setText(schema.getLabel().get(RegistrationConstants.PRIMARY) + mandatorySuffix);
+			label.setText(mandatorySuffix + schema.getLabel().get(RegistrationConstants.PRIMARY));
 			putIntoLabelMap(fieldName + languageType, schema.getLabel().get(RegistrationConstants.PRIMARY));
 		}
 		vbox.setPrefWidth(500);
