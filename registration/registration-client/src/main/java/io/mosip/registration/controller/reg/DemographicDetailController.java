@@ -14,6 +14,7 @@ import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -157,6 +158,7 @@ public class DemographicDetailController extends BaseController {
 	private Map<String, TreeMap<Integer, String>> orderOfAddressMapByGroup = new HashMap<>();
 	private Map<String, List<String>> orderOfAddressListByGroup = new LinkedHashMap<>();
 	Map<String, List<UiSchemaDTO>> templateGroup = null;
+	Map<String, List<UiSchemaDTO>> dynamicGroup = null;
 	private Node previousNode;
 
 
@@ -205,7 +207,8 @@ public class DemographicDetailController extends BaseController {
 
 			if (validation.isLostUIN()) {
 				registrationNavlabel.setText(applicationLabelBundle.getString("/lostuin"));
-				disablePreRegFetch();
+				//Commented due to not using pre reg module in POC Phase 2
+				//disablePreRegFetch();
 			}
 
 			if (getRegistrationDTOFromSession() != null
@@ -228,16 +231,17 @@ public class DemographicDetailController extends BaseController {
 			for (Entry<String, List<UiSchemaDTO>> templateGroupEntry : templateGroup.entrySet()) {
 
 				List<UiSchemaDTO> list = templateGroupEntry.getValue();
-				if (list.size() <= 4) {
-					addGroupInUI(list, position, templateGroupEntry.getKey() + position);
-				} else {
-					for (int index = 0; index <= list.size() / 4; index++) {
-
-						int toIndex = ((index * 4) + 3) <= list.size() - 1 ? ((index * 4) + 4) : list.size();
-						List<UiSchemaDTO> subList = list.subList(index * 4, toIndex);
-						addGroupInUI(subList, position, templateGroupEntry.getKey() + position);
-					}
-				}
+				addGroupInUI(list, position, templateGroupEntry.getKey() + position, templateGroupEntry.getKey());
+//				if (list.size() <= 4) {
+//					addGroupInUI(list, position, templateGroupEntry.getKey() + position, templateGroupEntry.getKey());
+//				} else {
+//					for (int index = 0; index <= list.size() / 4; index++) {
+//
+//						int toIndex = ((index * 4) + 3) <= list.size() - 1 ? ((index * 4) + 4) : list.size();
+//						List<UiSchemaDTO> subList = list.subList(index * 4, toIndex);
+//						addGroupInUI(subList, position, templateGroupEntry.getKey() + position, templateGroupEntry.getKey());
+//					}
+//				}
 			}
 
 			populateDropDowns();
@@ -280,17 +284,171 @@ public class DemographicDetailController extends BaseController {
 		}
 	}
 
-	private void addGroupInUI(List subList, int position, String gridPaneId) {
-		GridPane groupGridPane = new GridPane();
-		groupGridPane.setId(gridPaneId);
+//	private void addGroupInUI(List subList, int position, String gridPaneId, String templateName) {
+//		GridPane groupGridPane = new GridPane();
+//		groupGridPane.setId(gridPaneId);
+//
+//		addGroupContent(subList, groupGridPane);
+//		parentFlowPane.getChildren().add(groupGridPane);
+//
+//		//parentFlow.add(groupGridPane);
+//		//position++;
+//		//positionTracker.put(groupGridPane.getId(), position);
+//	}
 
-		addGroupContent(subList, groupGridPane);
-		parentFlowPane.getChildren().add(groupGridPane);
+	private void addGroupInUI(List subList, int position, String gridPaneId, String templateName) {
 
-		//parentFlow.add(groupGridPane);
-		//position++;
-		//positionTracker.put(groupGridPane.getId(), position);
+		String templateId = templateName.replaceAll(" ", "")+"_layout";
+		GridPane templatePane = (GridPane) parentFlowPane.lookup("#"+templateId);
+		System.out.println(parentFlowPane.lookup("#"+templateId));
+
+		if(templateName.equals("Sibling Details") || templateName.equals("Child Details")) {
+			dynamicGroup = getDynamicGroupMap(subList);
+			for (Entry<String, List<UiSchemaDTO>> dynamicGroupEntry : dynamicGroup.entrySet()) {
+				List<UiSchemaDTO> list = dynamicGroupEntry.getValue();
+				for (int index = 0; index <= list.size() / 3; index++) {
+					int toIndex = ((index * 3) + 2) <= list.size() - 1 ? ((index * 3) + 3) : list.size();
+					List<UiSchemaDTO> subRowList = list.subList(index * 3, toIndex);
+					GridPane groupGridPane = new GridPane();
+					groupGridPane.setId(gridPaneId);
+
+					addGroupContent(subRowList, groupGridPane);
+					if (templatePane == null){
+						templatePane = new GridPane();
+						templatePane.setId(templateId);
+
+						/* Adding label */
+						Label label = new Label(templateName);
+						label.getStyleClass().add("demoGraphicCustomLabel");
+						label.setPadding(new Insets(0, 0, 10, 55));
+						label.setPrefWidth(1200);
+						templatePane.add(label, 0, 0);
+						Button showHideButton = new Button("Show/Hide");
+						if(templateName.equals("Sibling Details")) {
+							showHideButton.setOnAction(showHideSiblingEvent);
+						} else {
+							showHideButton.setOnAction(showHideChildEvent);
+						}
+						showHideButton.setTranslateX(220);
+						showHideButton.setTranslateY(-35);
+						showHideButton.getStyleClass().add("demoGraphicPaneContentButton");
+						templatePane.add(showHideButton, 0, 1);
+					}
+					int childs = templatePane.getRowCount();
+					templatePane.add(groupGridPane, 0, childs);
+				}
+			}
+			ObservableList<Node> children = templatePane.getChildren();
+			for (Node child: children) {
+				if(child.getId() != null) {
+					GridPane details = (GridPane) child;
+					details.setVisible(false);
+					details.setManaged(false);
+				}
+			}
+
+		}
+		else {
+			if (subList.size() <= 3) {
+				GridPane groupGridPane = new GridPane();
+				groupGridPane.setId(gridPaneId);
+
+				addGroupContent(subList, groupGridPane);
+				if (templatePane == null){
+					templatePane = new GridPane();
+					templatePane.setId(templateId);
+
+
+					/* Adding label */
+					Label label = new Label(templateName);
+					label.getStyleClass().add("demoGraphicCustomLabel");
+					label.setPadding(new Insets(0, 0, 10, 55));
+					label.setPrefWidth(1200);
+					templatePane.add(label, 0, 0);
+				}
+				int childs = templatePane.getRowCount();
+				templatePane.add(groupGridPane, 0, childs);
+
+			} else {
+				for (int index = 0; index <= subList.size() / 3; index++) {
+					int toIndex = ((index * 3) + 2) <= subList.size() - 1 ? ((index * 3) + 3) : subList.size();
+					List<UiSchemaDTO> rowList = subList.subList(index * 3, toIndex);
+					GridPane groupGridPane = new GridPane();
+					groupGridPane.setId(gridPaneId);
+
+					addGroupContent(rowList, groupGridPane);
+					if (templatePane == null){
+						templatePane = new GridPane();
+						templatePane.setId(templateId);
+
+
+						/* Adding label */
+						Label label = new Label(templateName);
+						label.getStyleClass().add("demoGraphicCustomLabel");
+						label.setPadding(new Insets(0, 0, 10, 55));
+						label.setPrefWidth(1200);
+						templatePane.add(label, 0, 0);
+					}
+					int childs = templatePane.getRowCount();
+					templatePane.add(groupGridPane, 0, childs);
+				}
+			}
+		}
+		parentFlowPane.getChildren().add(templatePane);
 	}
+
+	// action event
+	EventHandler<ActionEvent> showHideSiblingEvent = new EventHandler<ActionEvent>() {
+		public void handle(ActionEvent e)
+		{
+			ObservableList<Node> demoPlaneChildren = parentFlowPane.getChildren();
+			for (Node demoPlaneChild: demoPlaneChildren) {
+				if(demoPlaneChild.getId().equals("SiblingDetails_layout")) {
+					GridPane siblingLayout = (GridPane) demoPlaneChild;
+					ObservableList<Node> siblingChilds = siblingLayout.getChildren();
+					for (Node siblingChild: siblingChilds) {
+						if(siblingChild.getId() != null) {
+							GridPane siblingDetails = (GridPane) siblingChild;
+							if(siblingDetails.isManaged()) {
+								siblingDetails.setVisible(false);
+								siblingDetails.setManaged(false);
+
+							} else {
+								siblingDetails.setVisible(true);
+								siblingDetails.setManaged(true);
+							}
+						}
+					}
+				}
+			}
+		}
+	};
+
+	EventHandler<ActionEvent> showHideChildEvent = new EventHandler<ActionEvent>() {
+		public void handle(ActionEvent e)
+		{
+			ObservableList<Node> demoPlaneChildren = parentFlowPane.getChildren();
+			for (Node demoPlaneChild: demoPlaneChildren) {
+				if(demoPlaneChild.getId().equals("ChildDetails_layout")) {
+					GridPane childLayout = (GridPane) demoPlaneChild;
+					ObservableList<Node> childChilds = childLayout.getChildren();
+					for (Node childChild: childChilds) {
+						if(childChild.getId() != null) {
+							GridPane childDetails = (GridPane) childChild;
+							if(childDetails.isManaged()) {
+								childDetails.setVisible(false);
+								childDetails.setManaged(false);
+
+							} else {
+								childDetails.setVisible(true);
+								childDetails.setManaged(true);
+							}
+						}
+					}
+				}
+			}
+		}
+	};
 
 	private void fillOrderOfLocation() {
 		List<Location> locations = masterSyncDao.getLocationDetails(applicationContext.getApplicationLanguage());
@@ -486,8 +644,8 @@ public class DemographicDetailController extends BaseController {
 		boolean localLanguage = languageType.equals(RegistrationConstants.LOCAL_LANGUAGE);
 		label.setText(localLanguage ? localLabelBundle.getString(type)
 				: applicationLabelBundle.getString(type) + mandatorySuffix);
-		textField.setPromptText(label.getText());
 
+		textField.setPromptText(label.getText());
 		textField.textProperty().addListener((ob, ov, nv) -> {
 			fxUtils.showLabel(parentFlowPane, textField);
 			if(!dateValidation.isNewValueValid(nv, type)) {
@@ -538,20 +696,9 @@ public class DemographicDetailController extends BaseController {
 
 		VBox finalVbox = new VBox();
 		finalVbox.setId(schema.getId());
-		
-		Label header = new Label();
-		header.setId(schema.getId() + languageType + RegistrationConstants.LABEL);
-		if (languageType.equals(RegistrationConstants.LOCAL_LANGUAGE)) {
-			header.setText(schema.getLabel().get(RegistrationConstants.SECONDARY) + mandatorySuffix);
-			putIntoLabelMap(schema.getId() + languageType, schema.getLabel().get(RegistrationConstants.SECONDARY));
-		} else {
-			header.setText(schema.getLabel().get(RegistrationConstants.PRIMARY) + mandatorySuffix);
-			putIntoLabelMap(schema.getId() + languageType, schema.getLabel().get(RegistrationConstants.PRIMARY));
-		}
-		header.getStyleClass().add(RegistrationConstants.DEMOGRAPHIC_FIELD_LABEL);
-		header.setWrapText(true);
-		
-		finalVbox.getChildren().addAll(header, dateHbox, dobMessage);
+		Label labeltop = new Label();
+		labeltop.setText(schema.getLabel().get(RegistrationConstants.PRIMARY) + mandatorySuffix);
+		finalVbox.getChildren().addAll(labeltop,dateHbox, dobMessage);
 		//NOTE: by default local/secondary language DOB fields are disabled
 		finalVbox.setDisable(languageType.equals(RegistrationConstants.LOCAL_LANGUAGE));
 		return finalVbox;
@@ -598,23 +745,10 @@ public class DemographicDetailController extends BaseController {
 		HBox dateAgeHbox = new HBox();
 		dateAgeHbox.setSpacing(10);
 		dateAgeHbox.getChildren().addAll(dateHbox, orVbox, vboxAgeField);
-		
+
 		VBox finalVbox = new VBox();
 		finalVbox.setId(schema.getId());
-		
-		Label header = new Label();
-		header.setId(schema.getId() + languageType + RegistrationConstants.LABEL);
-		if (languageType.equals(RegistrationConstants.LOCAL_LANGUAGE)) {
-			header.setText(schema.getLabel().get(RegistrationConstants.SECONDARY) + mandatorySuffix);
-			putIntoLabelMap(schema.getId() + languageType, schema.getLabel().get(RegistrationConstants.SECONDARY));
-		} else {
-			header.setText(schema.getLabel().get(RegistrationConstants.PRIMARY) + mandatorySuffix);
-			putIntoLabelMap(schema.getId() + languageType, schema.getLabel().get(RegistrationConstants.PRIMARY));
-		}
-		header.getStyleClass().add(RegistrationConstants.DEMOGRAPHIC_FIELD_LABEL);
-		header.setWrapText(true);
-		
-		finalVbox.getChildren().addAll(header, dateAgeHbox, dobMessage);
+		finalVbox.getChildren().addAll(dateAgeHbox, dobMessage);
 		//NOTE: by default local/secondary language DOB fields are disabled
 		finalVbox.setDisable(languageType.equals(RegistrationConstants.LOCAL_LANGUAGE));
 		return finalVbox;
@@ -791,6 +925,10 @@ public class DemographicDetailController extends BaseController {
 		field.managedProperty().bind(field.visibleProperty());
 		validationMessage.visibleProperty().bind(field.visibleProperty());
 		validationMessage.managedProperty().bind(field.visibleProperty());
+		field.valueProperty().addListener((ob, ov, nv) -> {
+			validationMessage.visibleProperty().bind(field.disabledProperty());
+			validationMessage.managedProperty().bind(field.disabledProperty());
+		});
 		vbox.visibleProperty().bind(field.visibleProperty());
 		vbox.managedProperty().bind(field.visibleProperty());
 
@@ -1125,7 +1263,8 @@ public class DemographicDetailController extends BaseController {
 	public void uinUpdate() {
 		List<String> selectionList = getRegistrationDTOFromSession().getUpdatableFields();
 		if (selectionList != null) {
-			disablePreRegFetch();
+			//Commenting due to not using pre reg in POC Phase 2
+			//disablePreRegFetch();
 			registrationNavlabel.setText(applicationLabelBundle.getString("uinUpdateNavLbl"));
 		}
 		for (Entry<String, UiSchemaDTO> selectionField : validation.getValidationMap().entrySet()) {
@@ -1384,9 +1523,10 @@ public class DemographicDetailController extends BaseController {
 	 */
 	@FXML
 	private void next() {
-		if (preRegistrationId.getText().isEmpty()) {
+		//Commenting due to not using pre reg in POC phase 2
+		/*if (preRegistrationId.getText().isEmpty()) {
 			preRegistrationId.clear();
-		}
+		}*/
 		// Its required to save before validation as, on spot check for values during
 		// MVEL validation
 		saveDetail();
@@ -1749,6 +1889,22 @@ public class DemographicDetailController extends BaseController {
 			}
 		}
 		return templateGroupMap;
+	}
+
+	private Map<String, List<UiSchemaDTO>> getDynamicGroupMap(List<UiSchemaDTO> sublist) {
+
+		Map<String, List<UiSchemaDTO>> dynamicGroupMap = new LinkedHashMap<>();
+
+		for (UiSchemaDTO entry : sublist) {
+			List<UiSchemaDTO> list = dynamicGroupMap.get(entry.getGroup());
+			if (list == null) {
+				list = new LinkedList<UiSchemaDTO>();
+			}
+			list.add(entry);
+			dynamicGroupMap.put(entry.getGroup() == null ? entry.getId() + "TemplateGroup"
+					: entry.getGroup(), list);
+		}
+		return dynamicGroupMap;
 
 	}
 }

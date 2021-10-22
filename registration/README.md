@@ -11,3 +11,4 @@ Configurations used for ID Repo are available in [mosip-config](https://github.c
 ### Build
 Below command should be run in the parent project **authentication**
 `mvn clean install`
+-----------------------------------------

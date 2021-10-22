@@ -1,8 +1,6 @@
 FROM mosipdev/javafx-reg-client-openjdk:latest
 
-RUN apt-get update
-
-RUN apt install -y zip nginx
+RUN apt-get update -y && apt-get -y autoremove && apt-get clean && apt-get install -y zip nginx
 
 ARG client_version
 
