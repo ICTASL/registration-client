@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 import io.mosip.registration.context.SessionContext;
 import lombok.NonNull;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -117,7 +118,7 @@ public class UserDetailServiceImpl extends BaseService implements UserDetailServ
 			LOGGER.info(LOG_REG_USER_DETAIL, APPLICATION_NAME, APPLICATION_ID,
 					"User Detail Sync Success......");
 
-		} catch (RegBaseCheckedException | IOException exception) {
+		} catch (RegBaseCheckedException | IOException | JSONException exception) {
 			LOGGER.error(LOG_REG_USER_DETAIL, APPLICATION_NAME, APPLICATION_ID,
 					ExceptionUtils.getStackTrace(exception));
 			setErrorResponse(responseDTO, exception.getMessage(), null);

@@ -20,6 +20,7 @@ import io.mosip.registration.exception.RegBaseCheckedException;
 import io.mosip.registration.util.healthcheck.RegistrationAppHealthCheckUtil;
 import io.mosip.registration.util.restclient.ServiceDelegateUtil;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -591,7 +592,7 @@ public class ClientSettingSyncHelper {
 				dynamicFieldRepository.saveAll(fields);
 			}
 				
-		} catch(IOException e) {
+		} catch(IOException | JSONException e) {
 			LOGGER.error(LOG_REG_MASTER_SYNC, APPLICATION_NAME, APPLICATION_ID, e.getMessage());
 			throw new SyncFailedException("Dynamic field sync failed due to " +  e.getMessage());
 		}

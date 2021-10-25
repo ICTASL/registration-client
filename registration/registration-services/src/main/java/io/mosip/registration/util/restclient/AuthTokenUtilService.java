@@ -18,6 +18,7 @@ import io.mosip.registration.entity.UserToken;
 import io.mosip.registration.exception.RegBaseCheckedException;
 import io.mosip.registration.exception.RegistrationExceptionConstants;
 import io.mosip.registration.repositories.UserTokenRepository;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -220,7 +221,7 @@ public class AuthTokenUtilService {
                 RegistrationExceptionConstants.AUTH_TOKEN_COOKIE_NOT_FOUND.getErrorMessage());
     }
 
-    private JSONObject getAuthTokenResponse(Map<String, Object> responseMap) throws RegBaseCheckedException {
+    private JSONObject getAuthTokenResponse(Map<String, Object> responseMap) throws RegBaseCheckedException, JSONException {
         if(responseMap.get(RegistrationConstants.REST_RESPONSE_BODY) != null) {
             Map<String, Object> respBody = (Map<String, Object>) responseMap.get(RegistrationConstants.REST_RESPONSE_BODY);
             if (respBody.get("response") != null) {

@@ -1,6 +1,7 @@
 package io.mosip.registration.service.sync.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -14,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.NonNull;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +27,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.mosip.kernel.core.exception.ExceptionUtils;
-import io.mosip.kernel.core.exception.IOException;
 import io.mosip.kernel.core.logger.spi.Logger;
 import io.mosip.kernel.core.util.DateUtils;
 import io.mosip.kernel.core.util.FileUtils;
@@ -126,7 +127,7 @@ public class PreRegistrationDataSyncServiceImpl extends BaseService implements P
 			//pre-rids received
 			if (mainResponseDTO != null && mainResponseDTO.getResponse() != null) {
 				PreRegistrationIdsDTO preRegistrationIdsDTO = new ObjectMapper().readValue(
-						new JSONObject(mainResponseDTO.getResponse()).toString(), PreRegistrationIdsDTO.class);
+						new JSONObject(String.valueOf(mainResponseDTO.getResponse())).toString(), PreRegistrationIdsDTO.class);
 				Map<String, String> preRegIds = (Map<String, String>) preRegistrationIdsDTO.getPreRegistrationIds();
 				getPreRegistrationPackets(preRegIds);
 				LOGGER.info("Fetching Pre-Registration data ended successfully");
@@ -138,8 +139,7 @@ public class PreRegistrationDataSyncServiceImpl extends BaseService implements P
 				return setSuccessResponse(responseDTO, RegistrationConstants.PRE_REG_SUCCESS_MESSAGE, null);
 			}
 
-		} catch (HttpClientErrorException | ResourceAccessException | HttpServerErrorException
-				| RegBaseCheckedException | java.io.IOException exception) {
+		} catch (HttpClientErrorException | ResourceAccessException | HttpServerErrorException | RegBaseCheckedException | IOException | JSONException exception) {
 			LOGGER.error("PRE_REGISTRATION_DATA_SYNC", exception);
 		}
 
