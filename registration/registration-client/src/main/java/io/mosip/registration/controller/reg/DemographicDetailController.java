@@ -451,11 +451,13 @@ public class DemographicDetailController extends BaseController {
 	};
 
 	private List<GenericDto> sortLocationListAsc(List<GenericDto> locations){
-		Collections.sort(locations, new Comparator<GenericDto>() {
-			public int compare(GenericDto location1, GenericDto location2) {
-				return location1.getName().compareTo(location2.getName());
-			}
-		});
+		if(locations != null) {
+			Collections.sort(locations, new Comparator<GenericDto>() {
+				public int compare(GenericDto location1, GenericDto location2) {
+					return location1.getName().compareTo(location2.getName());
+				}
+			});
+		}
 		return locations;
 	}
 
