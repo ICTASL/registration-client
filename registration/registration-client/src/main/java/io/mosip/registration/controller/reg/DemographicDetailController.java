@@ -450,6 +450,15 @@ public class DemographicDetailController extends BaseController {
 		}
 	};
 
+	private List<GenericDto> sortLocationListAsc(List<GenericDto> locations){
+		Collections.sort(locations, new Comparator<GenericDto>() {
+			public int compare(GenericDto location1, GenericDto location2) {
+				return location1.getName().compareTo(location2.getName());
+			}
+		});
+		return locations;
+	}
+
 	private void fillOrderOfLocation() {
 		List<Location> locations = masterSyncDao.getLocationDetails(applicationContext.getApplicationLanguage());
 		Map<Integer, String> treeMap = new TreeMap<Integer, String>();
@@ -1071,7 +1080,7 @@ public class DemographicDetailController extends BaseController {
 			location.getItems().clear();
 			try {
 				List<GenericDto> locations = null;
-				locations = masterSync.findLocationByHierarchyCode(id, languageType);
+				locations = sortLocationListAsc(masterSync.findLocationByHierarchyCode(id, languageType));
 
 				if (locations.isEmpty()) {
 					GenericDto lC = new GenericDto();
@@ -1567,8 +1576,8 @@ public class DemographicDetailController extends BaseController {
 					}
 				} else {
 
-					List<GenericDto> locations = masterSync.findProvianceByHierarchyCode(
-							selectedLocationHierarchy.getCode(), selectedLocationHierarchy.getLangCode());
+					List<GenericDto> locations = sortLocationListAsc(masterSync.findProvianceByHierarchyCode(
+							selectedLocationHierarchy.getCode(), selectedLocationHierarchy.getLangCode()));
 
 					if (locations.isEmpty()) {
 						GenericDto lC = new GenericDto();
