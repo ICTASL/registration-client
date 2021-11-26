@@ -10,7 +10,7 @@
 		<version>1.1.5</version>
 	</parent>
 	<groupId>io.mosip.registration</groupId>
-	<version>1.1.5.5</version>
+	<version>1.1.5.5-SNAPSHOT</version>
 	<artifactId>registration-client-parent</artifactId>
 	<packaging>pom</packaging>
 	<name>MOSIP Registration Client</name>
