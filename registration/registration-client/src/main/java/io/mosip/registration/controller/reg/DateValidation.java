@@ -178,7 +178,9 @@ public class DateValidation extends BaseController {
 		}else {
 			if(isError) {
 				dobMessage.setText(RegistrationUIConstants.INVALID_DATE.concat(" / ")
-						.concat(RegistrationUIConstants.INVALID_DATE_LIMIT).concat(allowedLimit));
+						/*Commented allowed limit since the error massage was lengthy*/
+						//.concat(RegistrationUIConstants.INVALID_DATE_LIMIT).concat(allowedLimit));
+						.concat(RegistrationUIConstants.INVALID_DATE_LIMIT));
 				dobMessage.setVisible(true);
 				generateAlert(parentPane, RegistrationConstants.DATE, dobMessage.getText());
 			} else {
@@ -288,17 +290,18 @@ public class DateValidation extends BaseController {
 	private void setTextFieldStyle(Pane parentPane, TextField node, boolean isError) {
 		if(parentPane == null || node == null)  { return; }
 		Node labelNode = getFxElement(parentPane, node.getId() + RegistrationConstants.LABEL);
-		Node headerNode = getFxElement(parentPane, node.getId().split("__")[0] + RegistrationConstants.LABEL);
+		/* Commented header node due to null pointer error and validation error is not populating*/
+		//Node headerNode = getFxElement(parentPane, node.getId().split("__")[0] + RegistrationConstants.LABEL);
 		if(labelNode == null) { return; }
 		Label label = (Label)labelNode;
-		Label headerLabel = (Label)headerNode;
+		//Label headerLabel = (Label)headerNode;
 		if(isError) {
 			node.getStyleClass().clear();
 			node.getStyleClass().add(RegistrationConstants.DEMOGRAPHIC_TEXTFIELD_FOCUSED);
 			label.getStyleClass().clear();
 			label.getStyleClass().add("demoGraphicFieldLabelOnType");
-			headerLabel.getStyleClass().clear();
-			headerLabel.getStyleClass().add("demoGraphicFieldLabelOnType");
+			//headerLabel.getStyleClass().clear();
+			//headerLabel.getStyleClass().add("demoGraphicFieldLabelOnType");
 		}
 		else {
 			node.getStyleClass().clear();
