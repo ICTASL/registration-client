@@ -18,13 +18,13 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <ImageView fitHeight="25.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT">
+      <ImageView fitHeight="33.125" fitWidth="84.6875" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT">
          <image>
             <Image url="@../images/ICTA.jpg" />
          </image>
-         <GridPane.margin>
-            <Insets left="22.0" />
-         </GridPane.margin>
+        <!-- <GridPane.margin>
+            <Insets left="5.0" />
+         </GridPane.margin>-->
       </ImageView>
       <GridPane styleClass="headerDetails" GridPane.columnIndex="2">
         <columnConstraints>
@@ -206,6 +206,9 @@
       <image>
             <Image url="@../images/Home.png" />
          </image>
+          <GridPane.margin>
+              <Insets left="10.0" />
+          </GridPane.margin>
       </ImageView>
    </children>
 </GridPane>
