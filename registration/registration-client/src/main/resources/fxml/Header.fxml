@@ -20,7 +20,7 @@
    <children>
       <ImageView fitHeight="33.125" fitWidth="84.6875" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT">
          <image>
-            <Image url="@../images/ICTA.jpg" />
+            <Image url="@../images/ICTA_login.jpg" />
          </image>
         <!-- <GridPane.margin>
             <Insets left="5.0" />

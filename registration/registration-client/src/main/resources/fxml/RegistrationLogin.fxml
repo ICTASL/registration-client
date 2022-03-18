@@ -22,7 +22,7 @@
 			<children>
 				<ImageView fitHeight="53.0" fitWidth="135.5" layoutX="20.0" layoutY="2.0">
 					<image>
-						<Image url="@../images/ICTA.jpg" />
+						<Image url="@../images/ICTA_login.jpg" />
 					</image>
 				</ImageView>
 			</children>
